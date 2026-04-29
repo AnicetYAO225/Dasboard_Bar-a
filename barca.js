@@ -1,43 +1,28 @@
-/* ═══════════════════════════════════════════════════════════════════
-   barca.js — FC Barcelona Dashboard Analytics 2025-26
-   
-   Sections :
-     1.  DONNÉES PHOTOS
-     2.  EFFECTIF PRINCIPAL (stats réelles au 17/04/2026)
-     3.  JOUEURS EN PRÊT
-     4.  FORMATIONS ET XI TYPE
-     5.  ÉTAT GLOBAL
-     6.  UTILITAIRES
-     7.  NAVIGATION
-     8.  SIDEBAR
-     9.  FICHE JOUEUR (Hero + Radar + Terrain)
-     10. STATS ULTRA-COMPLÈTES 2025-26
-     11. CLASSEMENTS
-     12. PROGRESSION MATCH PAR MATCH
-     13. TERRAINS SVG (vertical + nœuds joueurs)
-     14. FORMATIONS AUTOMATIQUES
-     15. COMPOSITION PERSONNALISÉE
-     16. XI TYPE
-     17. COMPARAISON
-     18. RECRUTEMENT AVEC AJOUT MANUEL
-     19. PRÊTÉS
-     20. NAVIGATION GLOBALE + EXPORT
-     21. INITIALISATION
-   ═══════════════════════════════════════════════════════════════════ */
+// barca.js - Dashboard Barça 2025-26
+// Projet perso pour suivre les stats de l'effectif, les comparaisons,
+// le mercato simulé, etc.
+// Toutes les données sont entrées à la main depuis fbref, fotmob et le site officiel.
+//
+// TODO : ajouter les stats de Copa del Rey proprement
+// TODO : regarder si je peux automatiser la mise à jour des notes matchs
+//
+// Structure globale :
+//   - PHOTOS + SQUAD + PRETS : les données brutes
+//   - les fonctions render* : tout ce qui touche l'affichage
+//   - init() en bas qui lance tout au chargement
 
 
-/* ═══════════════════════════════════════════════════════════════
-   DONNÉES PHOTOS — FC BARCELONA DASHBOARD
-   Sources : fcbarcelona.com (1ère équipe) + Transfermarkt CDN (B)
-   Fallback automatique sur initiales si erreur 404
-   ═══════════════════════════════════════════════════════════════ */
+// URLs des photos — j'essaie de prendre les officielles du site du Barça
+// pour les autres (prêtés, recrues) je passe par transfermarkt ou footmercato
+// si l'image charge pas, fallback sur les initiales du joueur
 
+// raccourci pour pas réécrire l'URL entière à chaque fois
 var BP = 'https://www.fcbarcelona.com/photo-resources/';
 var TM = 'https://img.a.ltximg.com/image/upload/f_auto,c_limit,h_234,w_200/';
 
 var PHOTOS = {
 
-  /* ── GARDIENS ── */
+  // gardiens
   'Marc-André ter Stegen': 'https://statics-maker.llt-services.com/gir/images/2026/01/26/small-wp/0204ac50-e988-4053-a098-1ade8f12d0e6-126.webp',
   'Joan Garcia': BP + '2025/09/09/81c7699c-1298-45d6-834e-df72d8c550c8/01-Joan_Garcia.png?width=220&height=220',
   'Szczesny': 'https://www.fcbarcelona.com/photo-resources/2025/09/09/01ac5137-9725-4e97-858e-711344d43fb5/25-Szczesny.jpg?width=640&height=400',
@@ -45,7 +30,7 @@ var PHOTOS = {
   'Diego Kochen': 'https://www.fcbarcelona.com/photo-resources/2025/10/09/eae1b89d-c767-4d84-8db0-5e386faae119/1-Kochen.jpg?width=640&height=400',
   'Eder Aller': 'https://img.a.transfermarkt.technology/portrait/header/1066202-1758897924.jpg?lm=1',
 
-  /* ── DÉFENSEURS ── */
+  // défenseurs
   'Cancelo': 'https://www.fcbarcelona.com/photo-resources/2026/01/15/79a75f80-8fb9-4213-b87f-f6fa2c4f4ec4/00-Cancelo.jpg?width=640&height=400',
   'Balde': BP + '2025/09/09/0d332686-2eee-4297-a099-bab75c7c35bb/03-Balde.png?width=220&height=220',
   'Araujo': BP + '2025/09/09/072afc10-1ec9-483e-a4a5-8775cb6cea23/04-Araujo.png?width=220&height=220',
@@ -58,7 +43,7 @@ var PHOTOS = {
   'Alvaro Cortés': 'https://www.fcbarcelona.com/photo-resources/2025/10/09/1700b884-4331-4228-9a5b-59b548835298/4-Alvaro-Cortes.jpg?width=640&height=400',
   'Xavi Espart': 'https://www.fcbarcelona.com/photo-resources/2025/10/15/ac205eff-9077-4bc2-be11-09ef76b60554/22-Xavi-Espart.jpg?width=640&height=400',
 
-  /* ── MILIEUX ── */
+  // milieux
   'Gavi': BP + '2025/09/09/7f610def-b5e6-46ce-9891-9e6988b89e29/06-Gavi.png?width=220&height=220',
   'Pedri': BP + '2025/09/09/3dd2346c-01bb-4ad9-9b62-ed5cbf8d8b06/08-Pedri.png?width=220&height=220',
   'Fermin': 'https://www.fcbarcelona.com/photo-resources/2025/09/09/4e851606-cfd6-4dc4-9042-c3dee40dbeb7/16-Fermin.jpg?width=640&height=400',
@@ -72,14 +57,14 @@ var PHOTOS = {
   'Juan Hernández': 'https://img.uefa.com/imgml/TP/players/1/2026/324x324/250184344.jpg',
   'Toni Fernández': 'https://www.fcbarcelona.com/photo-resources/2025/10/09/4b8dff83-be59-4e8b-b182-2b8b4faba6e2/16-A-Fernandez.jpg?width=640&height=400' ,
 
-  /* ── ATTAQUANTS ── */
+  // attaquants
   'F.Torres': BP + '2025/09/09/05ad9394-0706-4043-8315-1795193f17ad/07-Ferran_Torres.png?width=220&height=220',
   'Lewandowski': BP + '2025/09/09/3f98839a-bac3-451e-9431-6d58b79588d5/09-Lewandowski.png?width=220&height=220',
   'Lamine Yamal': BP + '2025/09/09/aae1899c-adb7-450a-b705-61cad72d2508/10-Lamine.png?width=220&height=220',
   'Raphinha': BP + '2025/09/09/369f0d8e-3301-4f3d-9507-246371f8e3d2/11-Raphinha.png?width=220&height=220',
   'Rashford': BP + '2025/09/09/6e30bc77-d2b9-4c6f-9a93-6a55628c4d5b/14-Rashford.png?width=220&height=220',
   'Bardghji': BP + '2025/09/09/9b946f2d-3dc7-4c96-ab7c-4a0e36e679cf/28-Bardghji.png?width=220&height=220',
-  /* ── PRÊTÉS ── */
+  // prêtés
   'Iñaki Peña': 'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/inaki-pena.png',
   'Héctor Fort': 'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/hector-fort-garcia.png',
   'Ansu Fati': 'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/ansu-fati.png',
@@ -87,7 +72,7 @@ var PHOTOS = {
   'Ander Astralaga': 'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/ander-astralaga-aranguren.png',
 };
 
-/* ── FALLBACK : remplace l'image par les initiales si 404 ── */
+// si l'image charge pas, on met les initiales à la place
 function getPlayerPhoto(name, imgElement) {
   var url = PHOTOS[name];
   if (!url) { renderInitials(name, imgElement); return; }
@@ -95,7 +80,8 @@ function getPlayerPhoto(name, imgElement) {
   var img = new Image();
   img.onload = function () { imgElement.src = url; };
   img.onerror = function () {
-    /* 1er fallback : essayer Transfermarkt via nom normalisé */
+
+    // si ça marche pas non plus -> initiales
     var tmSlug = name.toLowerCase()
       .replace(/[àáâã]/g, 'a').replace(/[éèê]/g, 'e')
       .replace(/[íì]/g, 'i').replace(/[óò]/g, 'o')
@@ -125,20 +111,22 @@ function renderInitials(name, el) {
     + initials.toUpperCase() + '';
 }
 
-/* Utilisation dans ton code : */
+// exemple d'utilisation :
 // getPlayerPhoto('Szczesny',    document.getElementById('photo-szczesny'));
 // getPlayerPhoto('Diego Kochen', document.getElementById('photo-kochen'));
 
 
-/* Drapeaux */
+// petits drapeaux emoji par code pays
 var FLAGS = { ES: '🇪🇸', FR: '🇫🇷', BR: '🇧🇷', NL: '🇳🇱', GB: '🏴', PL: '🇵🇱', SE: '🇸🇪', DK: '🇩🇰', UY: '🇺🇾', PT: '🇵🇹' };
 
 
-/* 
-   2. EFFECTIF PRINCIPAL 2025-26
-    */
+// EFFECTIF
+// Stats toutes compétitions confondues (Liga + UCL + Copa)
+// Source principale : fbref.com + fotmob pour les notes
+
 var SQUAD = [
-  /* ─ MILIEUX ─ */
+
+  // milieux
   {
     n: 'Lamine Yamal', p: 'FW', gr: 'FW', num: 10, age: 18, h: '1,79m', mv: '350M€',
     mp: 44, st: 41, min: 3647, yc: 6, rc: 0,
@@ -156,7 +144,8 @@ var SQUAD = [
     note_liga: 8.38, note_ucl: 8.3,
     info: 'Phénomène 18 ans · 23G/17A · 44 matchs · Record UCL historique.'
   },
-  /* ─ GARDIENS ─ */
+
+  // gardiens
   {
     n: 'Joan García', p: 'GK', gr: 'GK', num: 13, age: 24, h: '1,88m', mv: '35M€',
     mp: 40, st: 40, min: 3591, yc: 1, rc: 0,
@@ -174,7 +163,8 @@ var SQUAD = [
     note_liga: 7.15, note_ucl: 7.07,
     info: 'GK titulaire · 15 clean sheets · Signé d\'Espanyol (€25M).'
   },
-  /* ─ DÉFENSEURS ─ */
+
+  // défenseurs
   {
     n: 'Éric García', p: 'DF', gr: 'DF', num: 24, age: 25, h: '1,79m', mv: '20M€',
     mp: 46, st: 42, min: 3557, yc: 5, rc: 2,
@@ -226,7 +216,8 @@ var SQUAD = [
     note_liga: 7.11, note_ucl: 7.03,
     info: 'Titulaire RB · 3 buts · 49 centres.'
   },
-  /* ─ MILIEUX ─ */
+
+  // milieux
   {
     n: 'Fermin López', p: 'MF', gr: 'MF', num: 16, age: 22, h: '1,72m', mv: '80M€',
     mp: 43, st: 30, min: 2695, yc: 7, rc: 0,
@@ -244,7 +235,8 @@ var SQUAD = [
     note_liga: 7.51, note_ucl: 7.43,
     info: 'MVP de la saison · 12G/16A · Hat-trick UCL vs Olympiakos.'
   },
-  /* ─ DÉFENSEURS ─ */
+
+  // défenseurs
   {
     n: 'Gérard Martín', p: 'DF', gr: 'DF', num: 18, age: 24, h: '1,83m', mv: '12M€',
     mp: 45, st: 32, min: 2683, yc: 8, rc: 0,
@@ -262,7 +254,8 @@ var SQUAD = [
     note_liga: 6.75, note_ucl: 6.67,
     info: 'LB de rotation · 8 jaunes · 21 centres.'
   },
-  /* ─ MILIEUX ─ */
+
+  // milieux
   {
     n: 'Pedri', p: 'MF', gr: 'MF', num: 8, age: 23, h: '1,74m', mv: '120M€',
     mp: 37, st: 30, min: 2612, yc: 3, rc: 1,
@@ -280,7 +273,8 @@ var SQUAD = [
     note_liga: 7.45, note_ucl: 7.37,
     info: 'Régulateur du jeu Flick · 10 passes déc. · 1 rouge.'
   },
-  /* ─ DÉFENSEURS ─ */
+
+  // défenseurs
   {
     n: 'Alejandro Balde', p: 'DF', gr: 'DF', num: 3, age: 22, h: '1,74m', mv: '60M€',
     mp: 36, st: 29, min: 2502, yc: 3, rc: 0,
@@ -298,7 +292,8 @@ var SQUAD = [
     note_liga: 7.13, note_ucl: 7.05,
     info: 'LB titulaire · 3 passes déc. · 31 centres.'
   },
-  /* ─ MILIEUX ─ */
+
+  // milieux
   {
     n: 'Frenkie de Jong', p: 'MF', gr: 'MF', num: 21, age: 28, h: '1,80m', mv: '50M€',
     mp: 33, st: 26, min: 2441, yc: 7, rc: 2,
@@ -316,7 +311,7 @@ var SQUAD = [
     note_liga: 6.85, note_ucl: 6.77,
     info: '2 expulsions · 7 jaunes · 40 dribbles.'
   },
-  /* ─ ATTAQUANTS ─ */
+  // attaquants
   {
     n: 'Ferrán Torres', p: 'FW', gr: 'FW', num: 7, age: 26, h: '1,82m', mv: '40M€',
     mp: 44, st: 28, min: 2399, yc: 2, rc: 0,
@@ -334,7 +329,7 @@ var SQUAD = [
     note_liga: 7.38, note_ucl: 7.3,
     info: 'Meilleure saison en carrière · 19 buts.'
   },
-  /* ─ MILIEUX ─ */
+  // milieux
   {
     n: 'Dani Olmo', p: 'MF', gr: 'MF', num: 20, age: 27, h: '1,79m', mv: '70M€',
     mp: 42, st: 25, min: 2381, yc: 3, rc: 0,
@@ -386,7 +381,7 @@ var SQUAD = [
     note_liga: 7.45, note_ucl: 7.37,
     info: '3ème capitaine · 19 buts · 114 centres.'
   },
-  /* ─ ATTAQUANTS ─ */
+  // attaquants
   {
     n: 'Robert Lewandowski', p: 'FW', gr: 'FW', num: 9, age: 37, h: '1,85m', mv: '00M€',
     mp: 40, st: 22, min: 2032, yc: 2, rc: 0,
@@ -404,7 +399,7 @@ var SQUAD = [
     note_liga: 7.11, note_ucl: 7.03,
     info: '17 buts à 37 ans · Fin contrat juin 2026.'
   },
-  /* ─ DÉFENSEURS ─ */
+  // défenseurs
   {
     n: 'Ronald Araújo', p: 'DF', gr: 'DF', num: 4, age: 27, h: '1,88m', mv: '60M€',
     mp: 34, st: 15, min: 1517, yc: 4, rc: 1,
@@ -422,7 +417,7 @@ var SQUAD = [
     note_liga: 7.25, note_ucl: 7.17,
     info: 'Capitaine · 4 buts · 1 rouge · Duels aériens dominants.'
   },
-  /* ─ MILIEUX ─ */
+  // milieux
   {
     n: 'Marc Casado', p: 'MF', gr: 'MF', num: 17, age: 22, h: '1,83m', mv: '40M€',
     mp: 30, st: 14, min: 1327, yc: 4, rc: 0,
@@ -457,7 +452,7 @@ var SQUAD = [
     note_liga: 7.01, note_ucl: 6.93,
     info: 'Prodige 18 ans · 5 buts · Prolongé jusqu\'en 2029.', youth: true
   },
-  /* ─ DÉFENSEURS ─ */
+  // défenseurs
   {
     n: 'João Cancelo', p: 'DF', gr: 'DF', num: 2, age: 31, h: '1,82m', mv: '18M€',
     mp: 16, st: 12, min: 1029, yc: 4, rc: 0,
@@ -475,7 +470,7 @@ var SQUAD = [
     note_liga: 7.08, note_ucl: 7.0,
     info: 'Prêt Al Hilal (janv. 2026) · LB/RB polyvalent.', loan: true, loanFrom: 'Al Hilal'
   },
-  /* ─ GARDIENS ─ */
+  // gardiens
   {
     n: 'Wojciech Szczęsny', p: 'GK', gr: 'GK', num: 25, age: 36, h: '1,95m', mv: '2M€',
     mp: 10, st: 9, min: 819, yc: 0, rc: 0,
@@ -493,7 +488,7 @@ var SQUAD = [
     note_liga: 6.83, note_ucl: 6.75,
     info: 'Doublure solide · 62.5% arrêts.'
   },
-  /* ─ MILIEUX ─ */
+  // milieux
   {
     n: 'Roony Bardghji', p: 'FW', gr: 'FW', num: 19, age: 20, h: '1,83m', mv: '20M€',
     mp: 23, st: 7, min: 626, yc: 0, rc: 0,
@@ -511,7 +506,7 @@ var SQUAD = [
     note_liga: 6.85, note_ucl: 6.77,
     info: 'Ailier 20 ans · Progression très remarquée.', youth: true
   },
-  /* ─ DÉFENSEURS ─ */
+  // défenseurs
   {
     n: 'Andreas Christensen', p: 'DF', gr: 'DF', num: 15, age: 30, h: '1,87m', mv: '00M€',
     mp: 17, st: 4, min: 522, yc: 1, rc: 0,
@@ -529,7 +524,7 @@ var SQUAD = [
     note_liga: 6.81, note_ucl: 6.73,
     info: 'Blessures récurrentes · 17 matchs seulement.'
   },
-  /* ─ MILIEUX ─ */
+  // milieux
   {
     n: 'Gavi', p: 'MF', gr: 'MF', num: 6, age: 21, h: '1,73m', mv: '65M€',
     mp: 7, st: 2, min: 277, yc: 3, rc: 0,
@@ -564,7 +559,7 @@ var SQUAD = [
     note_liga: 6.53, note_ucl: null,
     info: 'Jeune milieu 18 ans · 4 matchs.', youth: true
   },
-  /* ─ DÉFENSEURS ─ */
+  // défenseurs
   {
     n: 'Jofre Torrents', p: 'DF', gr: 'DF', num: 38, age: 19, h: '1,85m', mv: '—',
     mp: 4, st: 1, min: 112, yc: 0, rc: 0,
@@ -582,7 +577,7 @@ var SQUAD = [
     note_liga: 6.48, note_ucl: null,
     info: 'Jeune défenseur 19 ans · 4 matchs.', youth: true
   },
-  /* ─ GARDIENS ─ */
+  // gardiens
   {
     n: 'Marc-André ter Stegen', p: 'GK', gr: 'GK', num: 1, age: 33, h: '1,92m', mv: '10M€',
     mp: 1, st: 1, min: 90, yc: 0, rc: 0,
@@ -600,7 +595,7 @@ var SQUAD = [
     note_liga: 6.03, note_ucl: null,
     info: 'Suspendu puis prêté à Girona (janv. 2026). 1 seul match.', loan: true, loanFrom: '', loanTo: 'Girona'
   },
-  /* ─ MILIEUX ─ */
+  // milieux
   {
     n: 'Toni Fernández', p: 'MF', gr: 'MF', num: 40, age: 17, h: '1,78m', mv: '—',
     mp: 1, st: 1, min: 45, yc: 0, rc: 0,
@@ -652,7 +647,7 @@ var SQUAD = [
     note_liga: 6.54, note_ucl: 6.46,
     info: 'Daniel Rodriguez · MF · 20 ans.', youth: true
   },
-  /* ─ GARDIENS ─ */
+  // gardiens
   {
     n: 'Diego Kochen', p: 'GK', gr: 'GK', num: 43, age: 20, h: '1,85m', mv: '—',
     mp: 0, st: 0, min: 0, yc: 0, rc: 0,
@@ -670,7 +665,7 @@ var SQUAD = [
     note_liga: 6.56, note_ucl: 6.48,
     info: 'Diego Kochen · GK · 20 ans.', youth: true
   },
-  /* ─ ATTAQUANTS ─ */
+  // attaquants
   {
     n: 'Juan Hernández', p: 'FW', gr: 'FW', num: 44, age: 18, h: '1,80m', mv: '—',
     mp: 0, st: 0, min: 0, yc: 0, rc: 0,
@@ -688,7 +683,7 @@ var SQUAD = [
     note_liga: 6.6, note_ucl: 6.52,
     info: 'Juan Hernández · FW · 18 ans.', youth: true
   },
-  /* ─ DÉFENSEURS ─ */
+  // défenseurs
   {
     n: 'Alvaro Cortés', p: 'DF', gr: 'DF', num: 45, age: 21, h: '1,80m', mv: '—',
     mp: 0, st: 0, min: 0, yc: 0, rc: 0,
@@ -706,7 +701,7 @@ var SQUAD = [
     note_liga: 6.63, note_ucl: 6.55,
     info: 'Alvaro Cortés · DF · 21 ans.', youth: true
   },
-  /* ─ GARDIENS ─ */
+  // gardiens
   {
     n: 'Eder Aller', p: 'GK', gr: 'GK', num: 46, age: 19, h: '1,88m', mv: '—',
     mp: 0, st: 0, min: 0, yc: 0, rc: 0,
@@ -741,7 +736,7 @@ var SQUAD = [
     note_liga: 6.37, note_ucl: null,
     info: 'Iñaki Peña · GK · 27 ans.', youth: true
   },
-  /* ─ MILIEUX ─ */
+  // milieux
   {
     n: 'Guillermo Fernandez', p: 'MF', gr: 'MF', num: 48, age: 17, h: '1,75m', mv: '—',
     mp: 0, st: 0, min: 0, yc: 0, rc: 0,
@@ -799,12 +794,11 @@ var PRETS = [
 ];
 
 
-/* 
-   4. FORMATIONS ET XI TYPE
-   */
+/* FORMATIONS ET XI TYPE */
 
-/* Configurations formations — terrain vertical 440×620
+/* Configurations formations - terrain vertical 440×620
    GK en bas (ty≈545), DEF (ty≈405-420), MF (ty≈248-322), ATT (ty≈88-205) */
+
 var FORMS = {
   '4-3-3': [
     { role: 'GK', gr: 'GK', tx: 220, ty: 545 },
@@ -839,7 +833,8 @@ var FORMS = {
   ]
 };
 
-/* XI Type 2025-26 — Formation 4-3-3 de Flick */
+/* XI Type 2025-26 - Formation 4-3-3 */
+
 var XI_2526 = [
   { n: 'Joan Garcia', tx: 220, ty: 545, note: 7.12 },
   { n: 'Kounde', tx: 355, ty: 405, note: 7.08 },
@@ -854,7 +849,8 @@ var XI_2526 = [
   { n: 'Raphinha', tx: 72, ty: 110, note: 7.42 },
 ];
 
-/* Génération données match par match réalistes */
+/* Génération données match par match */
+
 (function generateMatches() {
   var laliga = ['Valence', 'Atlético', 'Real Madrid', 'Séville', 'Betis', 'Villarreal', 'Bilbao', 'Getafe', 'Celta', 'Osasuna', 'Girona', 'Rayo', 'Las Palmas', 'Leganés'];
   var ucl = ['Dortmund', 'Club Brugge', 'PSG', 'Chelsea', 'Brest', 'Dinamo Z.', 'Newcastle', 'Olympiakos', 'Atlético'];
@@ -881,9 +877,8 @@ var XI_2526 = [
 })();
 
 
-/* 
-   5. ÉTAT GLOBAL
-    */
+// variables d'état global
+
 var curIdx = 0;
 var curProg = 0;
 var curFormKey = '4-3-3';
@@ -904,9 +899,8 @@ var chartProgN = null;
 var chartRecRadar = null;
 
 
-/* 
-   6. UTILITAIRES
-    */
+// --- fonctions utilitaires ---
+// des petits helpers que j'utilise partout dans le code
 
 /** Retourne les 2 initiales d'un nom */
 function ini(n) { return String(n).split(' ').slice(-2).map(function (w) { return w[0] || ''; }).join('').toUpperCase(); }
@@ -930,6 +924,7 @@ function getP(name) {
 }
 
 /** Génère le HTML d'un avatar circulaire avec gestion d'erreur photo */
+
 function imgEl(ph, col, sz, extra) {
   var url = ph ? PHOTOS[ph] : null;
   extra = extra || '';
@@ -941,11 +936,13 @@ function imgEl(ph, col, sz, extra) {
 }
 
 /** Génère une sbox */
+
 function mkSbox(l, v) {
   return '<div class="sbox"><div class="sl">' + l + '</div><div class="sv">' + v + '</div></div>';
 }
 
 /** Génère une stat-detail-box */
+
 function mkStatBox(label, val, sub, col) {
   return '<div class="stat-detail-box">' +
     '<div style="position:absolute;top:0;left:0;right:0;height:2px;background:' + (col || 'var(--B)') + ';border-radius:2px 2px 0 0;"></div>' +
@@ -956,15 +953,17 @@ function mkStatBox(label, val, sub, col) {
 }
 
 
-/* 
-   7. NAVIGATION ENTRE ONGLETS
-    */
+// --- navigation ---
+
 function goTab(id, btn) {
+
+  // cacher toutes les vues et onglets actifs
   document.querySelectorAll('.view').forEach(function (v) { v.classList.remove('on'); });
   document.querySelectorAll('.tab').forEach(function (b) { b.classList.remove('on'); });
   document.getElementById('v-' + id).classList.add('on');
   btn.classList.add('on');
-  /* Actions au changement d'onglet */
+
+  // déclencher le rendu selon l'onglet cliqué
   if (id === 'ranking') doRanking();
   if (id === 'custom') renderCustomPitch();
   if (id === 'prog') doProg(curProg);
@@ -976,11 +975,12 @@ function goTab(id, btn) {
 }
 
 
-/* 
-   8. SIDEBAR
-    */
+// --- sidebar (liste des joueurs à gauche) ---
+
 function buildSidebar() {
   var sb = document.getElementById('sidebar');
+
+  // je regroupe par poste dans l'ordre GK > DF > MF > FW
   sb.innerHTML = '';
   var sections = { GK: '🧤 Gardiens', DF: '🏰 Défenseurs', MF: '⚙ Milieux', FW: '⚡ Attaquants' };
   Object.keys(sections).forEach(function (gr) {
@@ -1009,6 +1009,8 @@ function buildSidebar() {
 }
 
 function pickPlayer(i) {
+
+  // console.log('joueur sélectionné:', SQUAD[i].n);
   curIdx = i;
   document.querySelectorAll('.pitem').forEach(function (t, j) { t.classList.toggle('on', j === i); });
   doHero();
@@ -1017,39 +1019,42 @@ function pickPlayer(i) {
 }
 
 
-/* 
-   9. FICHE JOUEUR
-   */
+// --- fiche de chaque joueur ---
+// c'est la vue principale, avec la photo, les stats clés et le terrain
 function doHero() {
   var p = SQUAD[curIdx];
-  /* Photo */
+
+  // photo du joueur
   var ph = document.getElementById('hImg');
   ph.style.background = p.col;
   var url = PHOTOS[p.ph];
   ph.innerHTML = url
     ? '<img src="' + url + '" style="width:100%;height:100%;object-fit:cover;object-position:top center;" onerror="this.parentNode.innerHTML=\'' + ini(p.ph) + '\'">'
     : ini(p.ph);
-  /* Infos */
+
+  // infos de base
   document.getElementById('hNum').textContent = '#' + p.num;
   document.getElementById('hName').textContent = p.n;
   document.getElementById('hPos').textContent = p.p;
-  var nn = document.getElementById('hNot');
-  nn.textContent = p.note.toFixed(2);
-  nn.style.background = nB(p.note);
-  nn.style.color = nT(p.note);
+  var noteBadge = document.getElementById('hNot');
+  noteBadge.textContent = p.note.toFixed(2);
+  noteBadge.style.background = nB(p.note);
+  noteBadge.style.color = nT(p.note);
   document.getElementById('hLoanBadge').innerHTML = p.loan
     ? '<span class="loan-badge">📋 Prêt — ' + p.loanFrom + '</span>'
     : (p.youth ? '<span class="youth-badge">🌱 La Masía</span>' : '');
   document.getElementById('hMeta').textContent =
     (FLAGS[p.nat] || '') + ' ' + p.nat + ' · ' + p.age + ' ans · ' + p.h + ' · ' + p.mv;
-  /* KPIs */
+
+  // les 4 chiffres clés en haut
   document.getElementById('hKpi').innerHTML =
     '<div class="kpi"><div class="kpi-v" style="color:#e05050;">' + p.g + '</div><div class="kpi-l">Buts</div></div>' +
     '<div class="kpi"><div class="kpi-v" style="color:#5599ee;">' + p.a + '</div><div class="kpi-l">Passes</div></div>' +
     '<div class="kpi"><div class="kpi-v">' + p.xg.toFixed(1) + '</div><div class="kpi-l">xG</div></div>' +
     '<div class="kpi"><div class="kpi-v">' + ga90(p) + '</div><div class="kpi-l">G+A/90</div></div>';
-  /* Stats offensives / défensives */
-  var isGK = p.p === 'GK';
+  
+    /* Stats offensives / défensives */
+  var isGK = p.p === 'GK'; // les gardiens ont des stats complètement différentes
   document.getElementById('sOff').innerHTML = isGK
     ? mkSbox('Arrêts', p.sv || 0) + mkSbox('Buts enc.', p.ga || 0) + mkSbox('Clean sh.', p.cs || 0) + mkSbox('Bloqués', p.bl)
     : mkSbox('Tirs tentés', p.tir) + mkSbox('Passes clés', p.kp) + mkSbox('Dribbles', p.drb) + mkSbox('Conversion', p.cv.toFixed(1) + '%');
@@ -1057,8 +1062,10 @@ function doHero() {
     mkSbox('Tacles', p.tck) + mkSbox('Interceptions', p.int) + mkSbox('Dégagements', p.cl) + mkSbox('Duels gagnés', p.du + '%');
 }
 
-/* RADAR — axes normalisés 0-10 */
+/* RADAR - axes normalisés 0-10 */
 var RLBLS = ['Buts', 'Passes', 'xG', 'Présence', 'Note', 'Défense'];
+
+// normalise les stats du joueur sur 0-10 pour le radar
 function rdData(p) {
   return [
     +((p.g / 22) * 10).toFixed(1),
@@ -1095,6 +1102,7 @@ function doRadar() {
 }
 
 /* TERRAIN HORIZONTAL — fiche joueur (700×210) */
+
 function pitchHBase() {
   var W = 700, H = 260, lc = 'rgba(255,255,255,.45)', lw = 0.8;
   var cy = H / 2;
@@ -1132,6 +1140,7 @@ function doPitchH() {
   }).join('');
 
   /* Photo du joueur positionnée en bas du terrain — sans overlap avec les notes */
+
   var dx = isGK ? 72 : isFW ? 570 : isMF ? 350 : 178;
   var dy = 225;
   var url = PHOTOS[p.ph];
@@ -1147,9 +1156,7 @@ function doPitchH() {
 }
 
 
-/* 
-   10. STATS DES JOUEURS 2025-26
-    */
+// --- stats détaillées par joueur ---
 function buildStatsSb26() {
   var sb = document.getElementById('statsSb26');
   sb.innerHTML = '';
@@ -1338,9 +1345,9 @@ function renderStats26() {
 }
 
 
-/* 
-   11. CLASSEMENTS
-    */
+// --- classements ---
+
+// TODO: ajouter un tri par compétition (Liga seule vs UCL)
 var RK_CATS = [
   { k: 'g', lbl: 'Buteurs', icon: '', col: '#e05050', max: 22 },
   { k: 'a', lbl: 'Passeurs', icon: '', col: '#5599ee', max: 15 },
@@ -1353,7 +1360,12 @@ var RK_CATS = [
   { k: 'min', lbl: 'Minutes jouées', icon: '', col: '#7f8c8d', max: 3600, fmt: function (v) { return v.toLocaleString(); } },
 ];
 
+// classe les joueurs par catégorie et affiche le top 4-5
+
 function doRanking() {
+
+  // console.log('doRanking called'); // debug
+
   var grid = document.getElementById('rkGrid'); grid.innerHTML = '';
   RK_CATS.forEach(function (cat) {
     var list = SQUAD.slice().filter(function (p) {
@@ -1379,9 +1391,9 @@ function doRanking() {
 }
 
 
-/* 
-   12. PROGRESSION
-    */
+// --- progression match par match ---
+// graphiques Chart.js (barres + ligne)
+
 function buildProgSb() {
   var sb = document.getElementById('progSb'); sb.innerHTML = '';
   SQUAD.forEach(function (p, i) {
@@ -1431,9 +1443,9 @@ function doProg(i) {
 }
 
 
-/* 
-   13. TERRAIN VERTICAL (440×620) + NŒUD JOUEUR
-    */
+/* terrain SVG vertical + nœuds joueurs */
+// dessine le terrain vertical en SVG
+
 function pitchV() {
   var W = 440, H = 620, lc = 'rgba(255,255,255,.5)', lw = 1;
   var stripes = [0, 1, 2, 3, 4, 5].map(function (i) {
@@ -1452,11 +1464,14 @@ function pitchV() {
     '<circle cx="220" cy="550" r="26" fill="none" stroke="' + lc + '" stroke-width="' + lw + '" opacity=".4"/>';
 }
 
+// crée le nœud SVG d'un joueur sur le terrain (cercle + photo + nom + note)
+
 function playerNode(pname, pcol, pph, tx, ty, note, isNew, role) {
   var url = (pph && pph.indexOf && pph.indexOf('http') === 0) ? pph : (PHOTOS[pph] || PHOTOS[pname]);
   var nt2 = nT(note), nb2 = nB(note);
   var last = pname.split(' ').pop();
   var R = 24;
+
   /* ID unique pour clipPath (éviter les doublons SVG) */
   var iid = 'cpn_' + pname.replace(/\W/g, '') + '_' + tx + '_' + ty;
   var circle;
@@ -1485,7 +1500,7 @@ function playerNode(pname, pcol, pph, tx, ty, note, isNew, role) {
 
 
 /* 
-   15. COMPOSITION PERSONNALISÉE
+   ma compo personnalisée
     */
 function buildCustBtns() {
   var c = document.getElementById('custBtns'); c.innerHTML = '';
@@ -1555,9 +1570,9 @@ function closePicker(evt) {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   16. XI TYPE 2025-26
-   ═══════════════════════════════════════════════════════════════════ */
+// --- XI type de la saison ---
+// affiche le XI type de la saison sur le terrain
+
 function drawXI() {
   var avg = (XI_2526.reduce(function (a, b) { return a + b.note; }, 0) / XI_2526.length).toFixed(2);
   document.getElementById('xi25note').textContent = avg + '/10';
@@ -1569,9 +1584,7 @@ function drawXI() {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   17. COMPARAISON
-   ═══════════════════════════════════════════════════════════════════ */
+// --- comparaison entre joueurs ---
 
 /* Analyse Cibles — Recrues prédéfinies */
 
@@ -1609,6 +1622,8 @@ function resolvePlayer(val) {
   var allR = RECRUES_PREDEFINIES.concat(userRecrues);
   return allR[+pts[1]];
 }
+// génère la comparaison côte à côte entre deux joueurs
+
 function doCmp() {
   var p1 = resolvePlayer(document.getElementById('cmpS1').value);
   var p2 = resolvePlayer(document.getElementById('cmpS2').value);
@@ -1667,9 +1682,9 @@ function doCmp() {
   });
 }
 
-/* ═══════════════════════════════════════════════
-   RECRUES PRÉDÉFINIES — Mercato été 2026
-   ═══════════════════════════════════════════════ */
+// ma shortlist pour le mercato d'été 2026
+// stats de la saison 2025-26 (fbref + fotmob + transferMarket)
+
 var RECRUES_PREDEFINIES = [
   {n:'Victor Osimhen',p:'FW',gr:'FW',age:27,mv:'75M€',mvNum:70,club:'Naples',
    mp:29,st:26,min:2276,g:19,a:6,xg:15.2,note:7.7,
@@ -1850,12 +1865,6 @@ var RECRUES_PREDEFINIES = [
    courPasse:3212,longuePasse:734,
    fautes:30,centres:14,tirs_cadres:15,cadrage_pct:39.5,
    ppm:2.28,b90:0.31,pd90:0.18,isRecrue:true},
-
-  /* ── Pedro Porro — Latéral droit Tottenham
-     Saison 2025-26 (PL + UCL) au 29 avril 2026
-     37 matchs, 1 but, 4 passes déc., 2776 min, note 6.92
-     Fort défenseur avec des qualités offensives (centres, pressing)
-     Droitier espagnol, capable de jouer latéral droit dans un 4-3-3 ── */
   {n:'Pedro Porro',p:'DF',gr:'DF',age:26,mv:'40M€',mvNum:40,club:'Tottenham',
    mp:42,st:38,min:3400,g:2,a:4,xg:1.5,note:7.07,
    nat:'ES',col:'#132257',ph:'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/pedro-antonio-porro-sauceda.png',
@@ -1866,12 +1875,6 @@ var RECRUES_PREDEFINIES = [
    courPasse:5500,longuePasse:1250,
    fautes:33,centres:135,tirs_cadres:6,cadrage_pct:27.3,
    ppm:1.54,b90:0.05,pd90:0.11,isRecrue:true},
-
-  /* ── Marc Cucurella — Latéral gauche Chelsea
-     Saison 2025-26 (PL + UCL) au 29 avril 2026
-     33 matchs, 1 but, 3 passes déc., 2800 min, note 6.99
-     Excellent dans le pressing haut (ADN Flick), bonne relance
-     Formé au Barça, parle catalan, connaît le système ── */
  {n:'Marc Cucurella',p:'DF',gr:'DF',age:27,mv:'40M€',mvNum:40,club:'Chelsea',
    mp:45,st:40,min:3500,g:1,a:3,xg:1.1,note:6.99,
    nat:'ES',col:'#034694',ph:'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/marc-cucurella.png',
@@ -1882,13 +1885,6 @@ var RECRUES_PREDEFINIES = [
    courPasse:6000,longuePasse:1350,
    fautes:50,centres:125,tirs_cadres:6,cadrage_pct:27.3,
    ppm:1.73,b90:0.03,pd90:0.09,isRecrue:true},
-
-  /* ── Cristian Romero — Défenseur central Tottenham
-     Saison 2025-26 (PL + UCL) au 29 avril 2026
-     27 matchs, 4 buts, 1 passe déc., 2100 min, note 7.06
-     CB agressif, très fort dans les duels (WhoScored : 7.05)
-     Défense 1v1 élite (top 20 PL), gros duels aériens
-     Attention : discipline fragile (9J + 2R cette saison) ── */
   {n:'Cristian Romero',p:'DF',gr:'DF',age:27,mv:'65M€',mvNum:65,club:'Tottenham',
    mp:33,st:28,min:2600,g:5,a:2,xg:3.6,note:7.06,
    nat:'AR',col:'#132257',ph:'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/cristian-gabriel-romero.png',
@@ -1901,9 +1897,8 @@ var RECRUES_PREDEFINIES = [
    ppm:1.85,b90:0.17,pd90:0.07,isRecrue:true},
 ];
 
-/* ═══════════════════════════════════════════════
-   MERCATO — État
-   ═══════════════════════════════════════════════ */
+// état du simulateur mercato (ce que j'ai vendu/acheté/rappelé)
+
 var mercatoVendus   = {};   /* {nom: {player}} */
 var mercatoAchetes  = {};   /* {nom: {player}} depuis RECRUES */
 var mercatoRappeles = {};   /* {nom: {player}} depuis PRETS */
@@ -1933,6 +1928,8 @@ function getMercatoEffectif() {
   return result;
 }
 
+// extrait le nombre depuis une valeur comme '70M€' -> 70
+// nécessaire parce que SQUAD stocke mv en string et pas en nombre
 function parseMvNum(p) {
   if (p.mvNum) return p.mvNum;
   if (!p.mv) return 0;
@@ -1996,7 +1993,9 @@ var REC_POSTES = [
   },
 ];
 
+// analyse les besoins par poste et calcule un score d'urgence
 function doRec() {
+
   /* Construire les boutons de postes */
   var btns = document.getElementById('recPosBtns');
   btns.innerHTML = '';
@@ -2025,6 +2024,7 @@ function doRec() {
     btn.onclick = (function (p) { return function () { curRecPos = p.id; curRecRadarSel = null; doRec(); selectRecPos(p); }; })(pos);
     btns.appendChild(btn);
   });
+
   /* Si un poste est sélectionné, afficher le tableau */
   if (curRecPos) {
     var pos = REC_POSTES.find(function (p) { return p.id === curRecPos; });
@@ -2041,13 +2041,17 @@ function selectRecPos(pos) {
 function renderRecTable(pos) {
   var tbody = document.getElementById('recTableBody');
   tbody.innerHTML = '';
+
   /* Joueurs Barça au poste */
   var barcaPlayers = SQUAD.filter(pos.filter);
+
   /* Recrues prédéfinies filtrées par poste */
   var predef = RECRUES_PREDEFINIES.filter(function (r) { return r.gr === pos.id; });
+
   /* Recrues ajoutées par l'utilisateur pour ce poste */
   var userRecs = userRecrues.filter(function (r) { return r.posId === pos.id; });
   var allRecrues = predef.concat(userRecs);
+
   /* Max pour les barres */
   var allPlayers = barcaPlayers.concat(allRecrues);
   var mx = {
@@ -2097,8 +2101,10 @@ function renderRecTable(pos) {
     var sep2 = document.createElement('tr');
     sep2.innerHTML = '<td colspan="10" style="padding:4px 10px;font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--t3);background:rgba(165,0,68,.08);">🔍 Analyse Cibles</td>';
     tbody.appendChild(sep2);
+
     /* Pré-définies (non supprimables) */
     predef.sort(function (a, b) { return b.note - a.note; }).forEach(function (p) { mkRow(p, true, -1); });
+    
     /* Ajoutées par l'utilisateur (supprimables) */
     userRecs.forEach(function (p, i) { mkRow(p, true, i); });
   }
@@ -2135,7 +2141,7 @@ function renderRecRadar(pos, barcaPlayers, recrues) {
     }
   }
 
-  /* ── Construction des datasets ── */
+  /* Construction des datasets */
   var datasets = [];
   var colors2 = ['#e05050', '#e0a920', '#5ec42a', '#9b59b6'];
 
@@ -2167,6 +2173,8 @@ function renderRecRadar(pos, barcaPlayers, recrues) {
 }
 
 /** Ajouter une recrue manuellement saisie par l'utilisateur */
+// je lis les champs du formulaire et j'ajoute dans userRecrues
+
 function addRecrue() {
   var name = document.getElementById('recName').value.trim();
   var club = document.getElementById('recClub').value.trim();
@@ -2212,7 +2220,7 @@ function addRecrue() {
   msg.textContent = '✓ ' + name + ' ajouté comme cible !';
   setTimeout(function () { msg.textContent = ''; }, 3000);
 
-  /* Rafraîchir le tableau et les sélections comparaison */
+  // màj comparaison
   doRec();
   fillCmpS2();
 }
@@ -2224,9 +2232,9 @@ function removeRecrue(posId, idx) {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   19. JOUEURS PRÊTÉS
-   ═══════════════════════════════════════════════════════════════════ */
+// joueurs en prêt
+// affiche les cartes des joueurs en prêt
+
 function doPrets() {
   var grid = document.getElementById('loanGrid');
   grid.innerHTML = '';
@@ -2254,11 +2262,9 @@ function doPrets() {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   20. NAVIGATION GLOBALE + EXPORT
-   ═══════════════════════════════════════════════════════════════════ */
+// navigation globale + jumpTo
+// navigue vers la fiche d'un joueur depuis n'importe quel onglet
 
-/** Navigue vers la fiche d'un joueur depuis n'importe quelle vue */
 function jumpTo(pname) {
   var idx = -1;
   for (var i = 0; i < SQUAD.length; i++) { if (SQUAD[i].n === pname) { idx = i; break; } }
@@ -2267,9 +2273,9 @@ function jumpTo(pname) {
   setTimeout(function () { pickPlayer(idx); }, 40);
 }
 
-/* ═══════════════════════════════════════════════
-   MERCATO — Fonctions
-   ═══════════════════════════════════════════════ */
+// --- fonctions mercato ---
+// point d'entrée du simulateur mercato
+
 function doMercato() {
   buildMercatoFormBtns();
   renderMercatoPanel();
@@ -2278,24 +2284,22 @@ function doMercato() {
 }
 
 function buildMercatoFormBtns() {
-  var c = document.getElementById('mercatoBtns');
-  if (!c) return;
-  c.innerHTML = '';
+  var sel = document.getElementById('mercatoFormSelect');
+  if (!sel) return;
+  sel.innerHTML = '';
   Object.keys(FORMS).forEach(function(fk) {
-    var btn = document.createElement('button');
-    btn.className = 'form-btn' + (fk === mercatoFormKey ? ' on' : '');
-    btn.textContent = fk;
-    btn.onclick = (function(key, b) {
-      return function() {
-        mercatoFormKey = key;
-        document.querySelectorAll('#mercatoBtns .form-btn').forEach(function(x) { x.classList.remove('on'); });
-        b.classList.add('on');
-        initMercatoXI(key);
-        renderMercatoPitch();
-      };
-    })(fk, btn);
-    c.appendChild(btn);
+    var opt = document.createElement('option');
+    opt.value = fk;
+    opt.textContent = fk;
+    if (fk === mercatoFormKey) opt.selected = true;
+    sel.appendChild(opt);
   });
+}
+
+function onMercatoFormChange(key) {
+  mercatoFormKey = key;
+  initMercatoXI(key);
+  renderMercatoPitch();
 }
 
 function renderMercatoPanel() {
@@ -2502,7 +2506,8 @@ function resetMercato() {
   doMercato();
 }
 
-/* ─ XI Projeté Mercato ─ */
+/* XI Projeté avec Mercato  */
+
 function initMercatoXI(fk) {
   mercatoXI = FORMS[fk].map(function(pos) {
     return { role: pos.role, gr: pos.gr, tx: pos.tx, ty: pos.ty, player: null };
@@ -2642,14 +2647,15 @@ function resetMercatoXI() {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   20b. COMPARAISON RECRUES
-   ═══════════════════════════════════════════════════════════════════ */
+// --- comparaison entre recrues ---
+// pratique pour comparer deux cibles sur les mêmes stats
 var chartRecueCmp = null;
 var recuePosFilter = 'ALL';
 
+// point d'entrée de l'onglet 'Analyse Cibles'
 function doRecues() {
   var all = RECRUES_PREDEFINIES.concat(userRecrues);
+
   /* Filtres poste */
   var filEl = document.getElementById('recuePosFil');
   if (filEl) {
@@ -2688,6 +2694,7 @@ function populateRecueSelects() {
       o._player = p;
       sel.appendChild(o);
     });
+
     /* Sélection par défaut : A=0, B=1 */
     if (filtered.length > idx) sel.selectedIndex = idx;
   });
@@ -2753,7 +2760,7 @@ function doRecueCmp() {
     return '<span style="padding:2px 8px;border-radius:8px;font-size:13px;font-weight:800;background:'+nB(note)+';color:'+nT(note)+';">'+note.toFixed(2)+'</span>';
   }
 
-  /* ── Sections dynamiques selon le profil de poste ── */
+  /*  Sections dynamiques selon le profil de poste  */
   /* Le Barça joue un pressing haut, jeu de position, relance depuis l'arrière,
      dribbles courts, passes entre les lignes, attaquants capables de presser */
   var grA = pA.gr || pA.p, grB = pB.gr || pB.p;
@@ -2773,8 +2780,10 @@ function doRecueCmp() {
   var sections;
 
   if (gr === 'GK') {
-    /* ── GARDIEN — Ce que cherche le Barça : gardien sweeper, excellent au pied,
-       jeu de passes, sorties aériennes, commandement de la défense ── */
+
+    /* GARDIEN - Ce que cherche le Barça : gardien sweeper, excellent au pied,
+       jeu de passes, sorties aériennes, commandement de la défense  */
+
     sections = [
       secGen,
       { title: 'Arrêts et Sécurité', info: 'Le Barça veut un GK fiable sous pression haute', rows: [
@@ -2795,9 +2804,11 @@ function doRecueCmp() {
     ];
 
   } else if (gr === 'DF') {
-    /* ── DÉFENSEUR — Ce que cherche le Barça : CB propre dans la relance,
+
+    /* DÉFENSEUR - Ce que cherche le Barça : CB propre dans la relance,
        bon dans le duel aérien, capable de jouer haut, latéraux offensifs
-       avec centres + dribbles + pressing ── */
+       avec centres + dribbles + pressing */
+
     var isLat = (pA.p === 'LB' || pA.p === 'RB' || pB.p === 'LB' || pB.p === 'RB');
     sections = [
       secGen,
@@ -2828,8 +2839,10 @@ function doRecueCmp() {
     ];
 
   } else if (gr === 'MF') {
-    /* ── MILIEU — Ce que cherche le Barça : pressing intense, récupération haute,
-       passes entre les lignes, dribbles courts, vision, polyvalence ── */
+
+    /* MILIEU - Ce que cherche le Barça : pressing intense, récupération haute,
+       passes entre les lignes, dribbles courts, vision, polyvalence */
+
     sections = [
       secGen,
       { title: 'Pressing et récupération - ADN Barça', info: 'Milieu Barça = premier défenseur, pressing non-stop', rows: [
@@ -2861,9 +2874,11 @@ function doRecueCmp() {
     ];
 
   } else {
-    /* ── ATTAQUANT — Ce que cherche le Barça : finisseur clinique,
+
+    /* ATTAQUANT - Ce que cherche le Barça : finisseur clinique,
        pressing haut, dribbles, vitesse d'exécution, travail collectif,
-       passes clés, capable de jouer en faux 9 ── */
+       passes clés, capable de jouer en faux 9 */
+       
     sections = [
       secGen,
       { title: 'Efficacité offensive - Priorité absolue', info: 'Barça veut un finisseur : xG élevé, cadrage élite', rows: [
@@ -2898,11 +2913,13 @@ function doRecueCmp() {
 
   sections.forEach(function(sec) {
     html += '<div class="card p">';
+
     /* Titre section + sous-titre Barça */
     html += '<div style="margin-bottom:8px;">';
     html += '<div style="font-size:11px;font-weight:800;color:var(--t1);">' + sec.title + '</div>';
     if (sec.info) html += '<div style="font-size:8px;color:var(--G);margin-top:2px;font-style:italic;">' + sec.info + '</div>';
     html += '</div>';
+    
     /* En-tête joueurs */
     html += '<div style="display:grid;grid-template-columns:1fr 80px 1fr;align-items:center;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);">';
     html += '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">' + mkAvatar(pA,cols.A) + '<div style="font-size:9px;font-weight:700;color:'+cols.A+';text-align:right;margin-top:2px;">' + pA.n + '</div>' + badge(pA.note) + '</div>';
@@ -2918,10 +2935,12 @@ function doRecueCmp() {
 }
 
 
-/* ═══════════════════════════════════════════════════════════════════
-   21. INITIALISATION — appelé au chargement de la page
-   ═══════════════════════════════════════════════════════════════════ */
+// --- init ---
+// tout se lance ici au chargement de la page
+// tout se lance ici — j'appelle toutes les fonctions dans le bon ordre
+
 (function init() {
+  
   /* Sidebar navigation joueurs */
   buildSidebar();
 
@@ -2934,7 +2953,7 @@ function doRecueCmp() {
   /* Composition perso vide */
   initCustomXI(curCustForm);
 
-  /* Sélecteurs comparaison */
+  // sélecteurs pour la comparaison
   buildSelects();
 
   /* Rendu initial - fiche du premier joueur */

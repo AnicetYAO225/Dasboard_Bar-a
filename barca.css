@@ -1,12 +1,9 @@
-/* 
-   barca.css — FC Barcelona Dashboard 2025-26
-   Thème sombre · Couleurs officielles Barça */
+/* Dashboard Barça 2025-26 */
 
-/* ── 1. VARIABLES ─────────────────────────────────────────── */
 :root {
-  --B: #004D98;   /* Bleu Barça */
-  --R: #A50044;   /* Rouge Barça */
-  --G: #EDBB00;   /* Or Barça */
+  --B: #004D98;
+  --R: #A50044;
+  --G: #EDBB00;
   --bg:    #0b1520;
   --bg2:   #101c2c;
   --bg3:   #172233;
@@ -21,7 +18,6 @@
   --radius-sm: 6px;
 }
 
-
 .logo {
   height: 38px;
   transition: transform 0.3s ease, filter 0.3s ease;
@@ -31,7 +27,7 @@
   filter: drop-shadow(0 0 8px #EDBB00);
 }
 
-/* ── 2. RESET ─────────────────────────────────────────────── */
+/* reset */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
   width: 100%; height: 100%;
@@ -45,14 +41,14 @@ html, body {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
 
-/* ── 3. LAYOUT PRINCIPAL ──────────────────────────────────── */
+/* layout */
 .app { display: flex; flex-direction: column; height: 100vh; }
 .body { flex: 1; min-height: 0; display: flex; overflow: hidden; }
 .main { flex: 1; min-width: 0; overflow: hidden; padding: 10px; display: flex; flex-direction: column; gap: 0; }
 .view { display: none; flex-direction: column; gap: 8px; flex: 1; min-height: 0; overflow: hidden; }
 .view.on { display: flex; }
 
-/* ── 4. TOPBAR ────────────────────────────────────────────── */
+/* topbar */
 .topbar {
   flex: 0 0 66px;
   display: flex; align-items: center; gap: 10px;
@@ -73,7 +69,7 @@ html, body {
 .exp-btn { padding: 6px 14px; font-size: 10px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; border-radius: 7px; cursor: pointer; color: #fff; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); flex-shrink: 0; transition: all .16s; }
 .exp-btn:hover { background: rgba(255,255,255,.16); }
 
-/* ── 5. SIDEBAR ───────────────────────────────────────────── */
+/* sidebar joueurs */
 .sidebar { width: 205px; flex: 0 0 205px; background: var(--card); border-right: 1px solid var(--border); overflow-y: auto; padding: 7px 5px; display: flex; flex-direction: column; gap: 2px; }
 .pos-section-hd { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--t3); padding: 6px 8px 2px; }
 .pitem { display: flex; align-items: center; gap: 7px; padding: 6px 8px; border-radius: 8px; cursor: pointer; border: 1px solid transparent; transition: all .12s; }
@@ -82,7 +78,7 @@ html, body {
 .pitem-name { font-size: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pitem-sub { font-size: 8px; color: var(--t2); }
 
-/* ── 6. CARTES GÉNÉRIQUES ─────────────────────────────────── */
+/* cartes */
 .card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); }
 .row { display: flex; gap: 8px; align-items: stretch; }
 .row > .card { min-width: 0; overflow: hidden; }
@@ -93,7 +89,7 @@ html, body {
 .youth-badge { display: inline-block; padding: 1px 5px; border-radius: 6px; font-size: 8px; font-weight: 700; background: rgba(62,158,31,.15); color: #5ec42a; margin-left: 4px; }
 .loan-out-badge { display: inline-block; padding: 1px 5px; border-radius: 6px; font-size: 8px; font-weight: 700; background: rgba(155,89,182,.2); color: #9b59b6; margin-left: 4px; }
 
-/* ── 7. HERO ──────────────────────────────────────────────── */
+/* hero fiche joueur */
 .hero-wrap { display: flex; height: 100%; }
 .hero-l { width: 108px; flex: 0 0 108px; background: linear-gradient(150deg, var(--B), #001840); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 10px; }
 .hero-img { width: 70px; height: 70px; border-radius: 50%; border: 2px solid rgba(255,255,255,.2); background: var(--bg4); overflow: hidden; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #fff; }
@@ -111,7 +107,7 @@ html, body {
 .sl { font-size: 7px; color: var(--t2); text-transform: uppercase; letter-spacing: .03em; margin-bottom: 1px; }
 .sv { font-size: 13px; font-weight: 700; }
 
-/* ── 8. CLASSEMENTS ───────────────────────────────────────── */
+/* classements */
 .rk-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; flex: 1; min-height: 0; overflow-y: auto; align-content: start; padding-bottom: 8px; }
 .rk-card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); overflow: hidden; }
 .rk-hd { padding: 8px 12px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 7px; }
@@ -129,7 +125,7 @@ html, body {
 .rk-bar { height: 2px; background: var(--bg4); border-radius: 1px; margin-top: 1px; }
 .rk-fill { height: 100%; border-radius: 1px; }
 
-/* ── 9. PROGRESSION ───────────────────────────────────────── */
+/* progression */
 .prog-wrap { display: flex; gap: 8px; flex: 1; min-height: 0; overflow: hidden; }
 .prog-sb { width: 155px; flex: 0 0 155px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
 .prog-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
@@ -140,7 +136,7 @@ html, body {
 .mm-v { font-size: 14px; font-weight: 800; }
 .mm-l { font-size: 7px; color: var(--t2); text-transform: uppercase; }
 
-/* ── 10. XI / FORMATIONS ──────────────────────────────────── */
+/* XI / formations */
 .xi-wrap { display: flex; gap: 8px; flex: 1; min-height: 0; overflow: hidden; }
 .xi-sb { width: 148px; flex: 0 0 148px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; min-height: 0; }
 .lg-row { display: flex; align-items: center; gap: 5px; font-size: 9px; color: var(--t2); margin-bottom: 3px; }
@@ -151,7 +147,7 @@ html, body {
 .form-btn:hover { border-color: var(--B); color: var(--t1); }
 .form-btn.on { background: rgba(0,77,152,.22); border-color: var(--B); color: #fff; }
 
-/* ── 11. COMPOSITION PERSO ────────────────────────────────── */
+/* compo perso */
 .custom-wrap { display: flex; gap: 8px; flex: 1; min-height: 0; overflow: hidden; }
 .custom-left { width: 215px; flex: 0 0 215px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; min-height: 0; }
 .picker-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 500; align-items: center; justify-content: center; }
@@ -167,7 +163,7 @@ html, body {
 .picker-item.used { opacity: .4; cursor: not-allowed; pointer-events: none; }
 .picker-section { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--t3); padding: 6px 4px 3px; }
 
-/* ── 12. COMPARAISON ──────────────────────────────────────── */
+/* comparaison */
 .cmp-outer { display: flex; flex-direction: column; flex: 1; min-height: 0; gap: 8px; }
 .cmp-top { display: flex; gap: 8px; flex-shrink: 0; }
 .cmp-bottom { display: flex; gap: 8px; flex: 1; min-height: 0; }
@@ -178,7 +174,7 @@ html, body {
 .cmp-row:last-child { border: none; }
 .sel-inp { width: 100%; padding: 7px 9px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg3); color: var(--t1); font-size: 11px; }
 
-/* ── 13. STATS ULTRA ──────────────────────────────────────── */
+/* stats */
 .stats-wrap { display: flex; gap: 8px; flex: 1; min-height: 0; overflow: hidden; }
 .stats-sb { width: 195px; flex: 0 0 195px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
 .stats-main { flex: 1; min-width: 0; overflow: hidden; display: flex; flex-direction: column; gap: 8px; }
@@ -201,7 +197,7 @@ html, body {
 .pos-rank-section { margin-bottom: 12px; }
 .pos-rank-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; padding: 6px 0; color: var(--t2); border-bottom: 1px solid var(--border); margin-bottom: 6px; }
 
-/* ── 14. RECRUTEMENT ──────────────────────────────────────── */
+/* recrutement */
 .rec-wrap { display: flex; gap: 8px; flex: 1; min-height: 0; overflow: hidden; }
 .rec-left { width: 230px; flex: 0 0 230px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; }
 .rec-right { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; overflow: hidden; }
@@ -210,7 +206,7 @@ html, body {
 .rec-pos-btn.on { border-color: var(--R); background: rgba(165,0,68,.12); }
 .rec-score-pill { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 8px; flex-shrink: 0; }
 
-/* Formulaire ajout joueur */
+/* formulaire ajout joueur */
 .form-group { display: flex; flex-direction: column; gap: 4px; }
 .form-label { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--t2); }
 .form-input { padding: 7px 9px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg3); color: var(--t1); font-size: 11px; font-family: inherit; transition: border-color .12s; }
@@ -222,7 +218,7 @@ html, body {
 .btn-danger { padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(165,0,68,.3); background: rgba(165,0,68,.1); color: #e05050; font-size: 10px; font-weight: 700; cursor: pointer; transition: all .12s; }
 .btn-danger:hover { background: rgba(165,0,68,.25); }
 
-/* Tableau comparaison recrues */
+/* tableau des recrues */
 .recruit-table { width: 100%; border-collapse: collapse; }
 .recruit-table th { font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--t3); padding: 6px 10px; text-align: left; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--card); }
 .recruit-table td { padding: 7px 10px; border-bottom: 1px solid rgba(255,255,255,.04); font-size: 11px; vertical-align: middle; }
@@ -232,23 +228,20 @@ html, body {
 .bar-cell { display: flex; align-items: center; gap: 6px; }
 .bar-cell-bar { height: 5px; border-radius: 3px; flex-shrink: 0; }
 
-/* ── 15. JOUEURS EN PRÊT ──────────────────────────────────── */
+/* Les prêts */
 .loan-out-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 8px; }
 .loan-out-card { background: var(--card); border-radius: var(--radius); border: 1px solid var(--border); padding: 12px; display: flex; gap: 10px; }
+.loan-out-img { width: 40px; height: 40px; border-radius: 50%; background: var(--bg4); overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--t2); }
+.loan-out-img img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
 .loan-out-info { flex: 1; min-width: 0; }
 .loan-out-name { font-size: 12px; font-weight: 700; }
 .loan-out-club { font-size: 9px; color: var(--t2); margin-top: 2px; }
 .loan-out-stat { display: inline-block; padding: 2px 6px; border-radius: 5px; font-size: 9px; font-weight: 700; background: var(--bg3); color: var(--t1); margin-top: 4px; margin-right: 3px; }
 
-/* ══════════════════════════════════════════════
-   MERCATO — Styles
-   ══════════════════════════════════════════════ */
-
-/* Onglet Mercato — couleur distinctive */
+/* Mon mercato mercato ideal */
 .tab-mercato.on { background: linear-gradient(90deg, #c0392b, #e74c3c) !important; box-shadow: 0 2px 10px rgba(231,76,60,.5) !important; }
 .tab-mercato:not(.on) { color: rgba(231,76,60,.7) !important; }
 
-/* Barre budget résumé */
 .merc-budget-bar {
   display: flex;
   gap: 5px;
@@ -278,7 +271,6 @@ html, body {
 .merc-budget-item.merc-sol.pos strong { color: #5ec42a; }
 .merc-budget-item.merc-sol.neg strong { color: #e05050; }
 
-/* Séparateurs de groupe dans les listes */
 .merc-group-hd {
   font-size: 8px;
   font-weight: 700;
@@ -290,7 +282,6 @@ html, body {
 .merc-group-hd.merc-group-red { color: rgba(165,0,68,.8); }
 .merc-group-hd.merc-group-blue { color: rgba(0,77,152,.8); border-top: 1px solid var(--border); margin-top: 4px; padding-top: 8px; }
 
-/* Ligne joueur dans les listes mercato */
 .merc-player-row {
   display: flex;
   align-items: center;
@@ -310,7 +301,6 @@ html, body {
   border-color: rgba(39,174,96,.2);
 }
 
-/* Avatar dans mercato */
 .merc-avatar {
   width: 28px;
   height: 28px;
@@ -331,7 +321,6 @@ html, body {
   object-position: top center;
 }
 
-/* Infos joueur dans mercato */
 .merc-player-info { flex: 1; min-width: 0; }
 .merc-player-name {
   font-size: 10px;
@@ -343,7 +332,6 @@ html, body {
 .merc-player-name.merc-strike { text-decoration: line-through; color: var(--t3); }
 .merc-player-sub { font-size: 8px; color: var(--t2); }
 
-/* Badge note dans mercato */
 .merc-note-badge {
   font-size: 8px;
   font-weight: 700;
@@ -352,7 +340,6 @@ html, body {
   flex-shrink: 0;
 }
 
-/* Boutons mercato */
 .merc-btn {
   padding: 3px 8px;
   border-radius: 5px;
@@ -373,7 +360,6 @@ html, body {
 .merc-btn-cancel { border-color: rgba(127,140,141,.3); color: var(--t2); }
 .merc-btn-cancel:hover { background: var(--bg4); }
 
-/* Tags dans le picker mercato */
 .merc-tag-recrue {
   display: inline-block;
   margin-left: 5px;
@@ -395,4 +381,211 @@ html, body {
   background: rgba(85,153,238,.2);
   color: #5599ee;
   vertical-align: middle;
+}
+
+.merc-form-select {
+  padding: 6px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--t1);
+  font-size: 13px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: border-color .15s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%237b8eaa'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 9px center;
+  padding-right: 28px;
+}
+.merc-form-select:hover,
+.merc-form-select:focus { border-color: var(--R); }
+.merc-form-select option { background: var(--bg3); color: var(--t1); }
+
+/* RESPONSIVE */
+
+/* hamburger - invisible sur desktop */
+.sidebar-check { display: none; }
+
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+  transition: background .15s;
+}
+.hamburger-btn:hover { background: rgba(255,255,255,.16); }
+
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: rgba(0,0,0,.55);
+}
+
+/* TABLETTE — 860px */
+@media (max-width: 860px) {
+  .topbar { flex: 0 0 54px; padding: 0 10px; gap: 8px; }
+  .brand .t2 { display: none; }
+  .logo { height: 32px; }
+
+  .sidebar { width: 175px; flex: 0 0 175px; }
+
+  .stats-sb { width: 165px; flex: 0 0 165px; }
+  .prog-sb  { width: 130px; flex: 0 0 130px; }
+  .xi-sb    { width: 128px; flex: 0 0 128px; }
+  .form-sb  { width: 140px; flex: 0 0 140px; }
+  .custom-left { width: 185px; flex: 0 0 185px; }
+  .rec-left    { width: 195px; flex: 0 0 195px; }
+
+  .rk-grid { grid-template-columns: repeat(2,1fr); }
+
+  .cmp-top { flex-wrap: wrap; }
+  .cmp-top > .card { flex: 1 1 calc(50% - 4px); min-width: 0; }
+}
+
+/* MOBILE — 640px */
+@media (max-width: 640px) {
+
+  /* base */
+  html, body { overflow: auto; height: auto; }
+  .app { height: auto; min-height: 100vh; }
+
+  /* sidebar → drawer latéral */
+  .hamburger-btn { display: flex; }
+
+  .sidebar {
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    z-index: 200;
+    width: 220px;
+    flex: none;
+    transform: translateX(-100%);
+    transition: transform .25s ease;
+    border-right: 1px solid var(--border);
+  }
+  .sidebar-check:checked ~ .sidebar-backdrop { display: block; }
+  .sidebar-check:checked ~ .body .sidebar {
+    transform: translateX(0);
+    box-shadow: 6px 0 30px rgba(0,0,0,.6);
+  }
+
+  /* body + main */
+  .body { overflow: visible; flex: none; }
+  .main { padding: 8px; overflow: visible; height: auto; }
+  .view { height: auto; overflow: visible; }
+
+  /* topbar */
+  .topbar { flex: 0 0 50px; padding: 0 8px; gap: 6px; }
+  .brand .t1 { font-size: 12px; }
+  .logo { height: 28px; }
+  .tab { padding: 5px 8px; font-size: 9px; }
+  .exp-btn { display: none; }
+
+  /* row → colonne */
+  .row { flex-direction: column; }
+  .row > .card { flex: none !important; width: 100%; }
+
+  /* hero */
+  .hero-l { width: 88px; flex: 0 0 88px; }
+  .hero-img { width: 56px; height: 56px; font-size: 16px; }
+  .hero-name { font-size: 13px; }
+  .kpis { grid-template-columns: repeat(2,1fr); }
+
+  /* terrain principal */
+  #v-joueur > .card:last-child { height: 260px; flex: none; }
+
+  /* classements */
+  .rk-grid { grid-template-columns: 1fr; }
+
+  /* stats */
+  .stats-wrap { flex-direction: column; }
+  .stats-sb {
+    width: 100%; flex: none;
+    flex-direction: row; flex-wrap: wrap;
+    max-height: 130px;
+    overflow-x: auto; overflow-y: hidden;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+  }
+  .stat-tabs { flex-wrap: nowrap; overflow-x: auto; }
+  .stat-tabs::-webkit-scrollbar { display: none; }
+
+  /* progression */
+  .prog-wrap { flex-direction: column; }
+  .prog-sb {
+    width: 100%; flex: none;
+    flex-direction: row; flex-wrap: nowrap;
+    max-height: none;
+    overflow-x: auto; overflow-y: hidden;
+    padding-bottom: 4px;
+    gap: 4px;
+  }
+  .psel { flex: 0 0 auto; }
+
+  /* XI type */
+  .xi-wrap { flex-direction: column; }
+  .xi-sb {
+    width: 100%; flex: none;
+    flex-direction: row; overflow-x: auto;
+    gap: 6px; padding-bottom: 4px;
+  }
+  .xi-sb > .card { flex: 0 0 auto; min-width: 110px; }
+  .xi-wrap > .card:last-child { height: 440px; }
+
+  /* formations */
+  .form-wrap { flex-direction: column; }
+  .form-sb { width: 100%; flex: none; flex-direction: row; flex-wrap: wrap; gap: 4px; overflow-x: auto; }
+  .form-btn { width: auto; flex: 0 0 auto; }
+
+  /* compo perso */
+  .custom-wrap { flex-direction: column; }
+  .custom-left { width: 100%; flex: none; }
+  .custom-wrap > .card:last-child { height: 440px; }
+
+  /* comparaison */
+  .cmp-top { flex-direction: column; }
+  .cmp-bottom { flex-direction: column; }
+
+  /* recrutement */
+  .rec-wrap { flex-direction: column; }
+  .rec-left { width: 100%; flex: none; }
+  /* cacher les colonnes secondaires du tableau sur mobile */
+  .recruit-table th:nth-child(n+5),
+  .recruit-table td:nth-child(n+5) { display: none; }
+
+  /* mercato - les 3 colonnes en stack */
+  #v-mercato > div:last-child { flex-direction: column !important; }
+  #v-mercato > div:last-child > div {
+    width: 100% !important;
+    flex: none !important;
+    max-height: 280px;
+  }
+  #v-mercato > div:last-child > div:last-child { max-height: none; }
+  #svgMercato { height: 400px; display: block; }
+
+  /* prêts */
+  .loan-out-grid { grid-template-columns: 1fr; }
+
+  /* picker modal */
+  .picker-box { width: 95vw; max-height: 80vh; }
+
+  /* budget mercato */
+  .merc-budget-bar { gap: 3px; }
+  .merc-budget-item { font-size: 8px; }
+  .merc-budget-item strong { font-size: 9px; }
 }
