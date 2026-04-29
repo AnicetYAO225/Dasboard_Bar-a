@@ -1856,32 +1856,32 @@ var RECRUES_PREDEFINIES = [
      37 matchs, 1 but, 4 passes déc., 2776 min, note 6.92
      Fort défenseur avec des qualités offensives (centres, pressing)
      Droitier espagnol, capable de jouer latéral droit dans un 4-3-3 ── */
-  {n:'Pedro Porro',p:'DF',gr:'DF',age:26,mv:'50M€',mvNum:50,club:'Tottenham',
-   mp:42,st:40,min:2776,g:2,a:4,xg:1.2,note:6.92,
+  {n:'Pedro Porro',p:'DF',gr:'DF',age:26,mv:'40M€',mvNum:40,club:'Tottenham',
+   mp:42,st:38,min:3400,g:2,a:4,xg:1.5,note:7.07,
    nat:'ES',col:'#132257',ph:'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/pedro-antonio-porro-sauceda.png',
-   tir:18,kp:14,drb:22,cv:27.8,tck:58,int:32,
-   cl:112,bl:28,du:57,yc:9,rc:0,
+   tir:22,kp:18,drb:26,cv:27.8,tck:72,int:40,
+   cl:135,bl:35,du:68,yc:9,rc:0,
    sv:0,ga:0,cs:0,arrets_pct:0.0,ga90_gk:0.0,
-   pressing:68,touchesBall:13200,
-   courPasse:4620,longuePasse:1056,
-   fautes:28,centres:112,tirs_cadres:5,cadrage_pct:27.8,
-   ppm:1.54,b90:0.03,pd90:0.13,isRecrue:true},
+   pressing:72,touchesBall:16000,
+   courPasse:5500,longuePasse:1250,
+   fautes:33,centres:135,tirs_cadres:6,cadrage_pct:27.3,
+   ppm:1.54,b90:0.05,pd90:0.11,isRecrue:true},
 
   /* ── Marc Cucurella — Latéral gauche Chelsea
      Saison 2025-26 (PL + UCL) au 29 avril 2026
      33 matchs, 1 but, 3 passes déc., 2800 min, note 6.99
      Excellent dans le pressing haut (ADN Flick), bonne relance
      Formé au Barça, parle catalan, connaît le système ── */
-  {n:'Marc Cucurella',p:'DF',gr:'DF',age:27,mv:'40M€',mvNum:40,club:'Chelsea',
-   mp:45,st:38,min:2800,g:1,a:3,xg:0.9,note:6.99,
+ {n:'Marc Cucurella',p:'DF',gr:'DF',age:27,mv:'40M€',mvNum:40,club:'Chelsea',
+   mp:45,st:40,min:3500,g:1,a:3,xg:1.1,note:6.99,
    nat:'ES',col:'#034694',ph:'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/marc-cucurella.png',
-   tir:12,kp:12,drb:28,cv:25.0,tck:56,int:33,
-   cl:100,bl:20,du:57,yc:7,rc:1,
+   tir:22,kp:16,drb:35,cv:27.8,tck:70,int:42,
+   cl:125,bl:25,du:68,yc:7,rc:1,
    sv:0,ga:0,cs:9,arrets_pct:0.0,ga90_gk:0.0,
-   pressing:72,touchesBall:14000,
-   courPasse:4900,longuePasse:1120,
-   fautes:42,centres:100,tirs_cadres:3,cadrage_pct:25.0,
-   ppm:1.73,b90:0.03,pd90:0.10,isRecrue:true},
+   pressing:76,touchesBall:17000,
+   courPasse:6000,longuePasse:1350,
+   fautes:50,centres:125,tirs_cadres:6,cadrage_pct:27.3,
+   ppm:1.73,b90:0.03,pd90:0.09,isRecrue:true},
 
   /* ── Cristian Romero — Défenseur central Tottenham
      Saison 2025-26 (PL + UCL) au 29 avril 2026
@@ -1890,15 +1890,15 @@ var RECRUES_PREDEFINIES = [
      Défense 1v1 élite (top 20 PL), gros duels aériens
      Attention : discipline fragile (9J + 2R cette saison) ── */
   {n:'Cristian Romero',p:'DF',gr:'DF',age:27,mv:'65M€',mvNum:65,club:'Tottenham',
-   mp:33,st:25,min:2100,g:6,a:4,xg:3.2,note:7.06,
+   mp:33,st:28,min:2600,g:5,a:2,xg:3.6,note:7.06,
    nat:'AR',col:'#132257',ph:'https://assets-fr.imgfoot.com/media/cache/150x150/portrait/cristian-gabriel-romero.png',
-   tir:17,kp:10,drb:12,cv:35.3,tck:62,int:33,
-   cl:93,bl:28,du:64,yc:9,rc:2,
+   tir:20,kp:12,drb:14,cv:35.3,tck:70,int:40,
+   cl:110,bl:32,du:72,yc:12,rc:2,
    sv:0,ga:0,cs:5,arrets_pct:0.0,ga90_gk:0.0,
-   pressing:52,touchesBall:11300,
-   courPasse:3955,longuePasse:904,
-   fautes:32,centres:93,tirs_cadres:6,cadrage_pct:35.3,
-   ppm:1.85,b90:0.17,pd90:0.04,isRecrue:true},
+   pressing:55,touchesBall:13500,
+   courPasse:4700,longuePasse:1070,
+   fautes:38,centres:20,tirs_cadres:7,cadrage_pct:35.0,
+   ppm:1.85,b90:0.17,pd90:0.07,isRecrue:true},
 ];
 
 /* ═══════════════════════════════════════════════
