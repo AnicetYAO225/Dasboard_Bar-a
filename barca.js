@@ -1139,7 +1139,7 @@ function doPitchH() {
       '<text x="' + cx + '" y="' + (z.y + 52) + '" text-anchor="middle" fill="#fff" font-size="30" font-weight="700" font-family="system-ui">' + z.note + '</text>';
   }).join('');
 
-  /* Photo du joueur positionnée en bas du terrain — sans overlap avec les notes */
+  /* Photo du joueur positionnée en bas du terrain - sans overlap avec les notes */
 
   var dx = isGK ? 72 : isFW ? 570 : isMF ? 350 : 178;
   var dy = 225;
@@ -1584,7 +1584,7 @@ function drawXI() {
 
 // --- comparaison entre joueurs ---
 
-/* Analyse Cibles — Recrues prédéfinies */
+/* Analyse Cibles - Recrues prédéfinies */
 
 function buildSelects() {
   var s1 = document.getElementById('cmpS1'); s1.innerHTML = '';
@@ -2688,7 +2688,7 @@ function populateRecueSelects() {
     filtered.forEach(function(p, i) {
       var o = document.createElement('option');
       o.value = i;
-      o.textContent = p.n + ' — ' + (p.club||'?') + ' (' + p.p + ')';
+      o.textContent = p.n + ' - ' + (p.club||'?') + ' (' + p.p + ')';
       o._player = p;
       sel.appendChild(o);
     });
@@ -2913,7 +2913,7 @@ function doRecueCmp() {
     html += '<div class="card p">';
 
     /* Titre section et sous-titre Barça */
-    html += '<div style="margin-bottom:8px;">';
+    html += '<div style="margin-bottom:8px;text-align:center;">';
     html += '<div style="font-size:11px;font-weight:800;color:var(--t1);">' + sec.title + '</div>';
     if (sec.info) html += '<div style="font-size:8px;color:var(--G);margin-top:2px;font-style:italic;">' + sec.info + '</div>';
     html += '</div>';
