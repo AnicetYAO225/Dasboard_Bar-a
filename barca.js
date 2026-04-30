@@ -1547,7 +1547,7 @@ function renderCustomPitch() {
 function rmSlot(idx) { custXI[idx].player = null; renderCustomPitch(); }
 function openPicker(idx) {
   pickerSlotIdx = idx; var slot = custXI[idx];
-  document.getElementById('pickerTitle').textContent = 'Choisir joueur — ' + slot.role;
+  document.getElementById('pickerTitle').textContent = 'Choisir joueur - ' + slot.role;
   var used = {}; custXI.forEach(function (s, i) { if (s.player && i !== idx) used[s.player.n] = true; });
   var gr = Array.isArray(slot.gr) ? slot.gr : [slot.gr];
   var compat = SQUAD.filter(function (p) { return !used[p.n] && gr.some(function (g) { return p.gr === g; }); }).sort(function (a, b) { return b.note - a.note; });
@@ -2564,7 +2564,7 @@ function createPickerAvatar(p) {
 function openMercatoPicker(idx) {
   mercatoPickSlot = idx;
   var slot = mercatoXI[idx];
-  document.getElementById('pickerTitle').textContent = 'XI Projeté — Poste : ' + slot.role;
+  document.getElementById('pickerTitle').textContent = 'XI Projeté - Poste : ' + slot.role;
   var squad = getMercatoEffectif();
   var used = {};
   mercatoXI.forEach(function(s, i) { if (s.player && i !== idx) used[s.player.n] = true; });
