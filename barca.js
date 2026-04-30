@@ -1,18 +1,18 @@
 // barca.js - Dashboard Barça 2025-26
 // Projet perso pour suivre les stats de l'effectif, les comparaisons,
 // le mercato simulé, etc.
-// Toutes les données sont entrées à la main depuis fbref, fotmob et le site officiel.
+// Toutes les données sont ont été recup depuis fbref, fotmob et le site officiel.
 //
 // TODO : ajouter les stats de Copa del Rey proprement
 // TODO : regarder si je peux automatiser la mise à jour des notes matchs
 //
 // Structure globale :
 //   - PHOTOS + SQUAD + PRETS : les données brutes
-//   - les fonctions render* : tout ce qui touche l'affichage
+//   - les fonctions render : tout ce qui touche l'affichage
 //   - init() en bas qui lance tout au chargement
 
 
-// URLs des photos — j'essaie de prendre les officielles du site du Barça
+// URLs des photos - j'essaie de prendre les photos officielles du site du Barça
 // pour les autres (prêtés, recrues) je passe par transfermarkt ou footmercato
 // si l'image charge pas, fallback sur les initiales du joueur
 
@@ -81,7 +81,7 @@ function getPlayerPhoto(name, imgElement) {
   img.onload = function () { imgElement.src = url; };
   img.onerror = function () {
 
-    // si ça marche pas non plus -> initiales
+    // si ça marche pas non plus - on choisit less initiales
     var tmSlug = name.toLowerCase()
       .replace(/[àáâã]/g, 'a').replace(/[éèê]/g, 'e')
       .replace(/[íì]/g, 'i').replace(/[óò]/g, 'o')
@@ -117,7 +117,7 @@ function renderInitials(name, el) {
 
 
 // petits drapeaux emoji par code pays
-var FLAGS = { ES: '🇪🇸', FR: '🇫🇷', BR: '🇧🇷', NL: '🇳🇱', GB: '🏴', PL: '🇵🇱', SE: '🇸🇪', DK: '🇩🇰', UY: '🇺🇾', PT: '🇵🇹' };
+var FLAGS = { ES: '🇪🇸', FR: '🇫🇷', BR: '🇧🇷', NL: '🇳🇱', GB: 'GB', PL: '🇵🇱', SE: '🇸🇪', DK: '🇩🇰', UY: '🇺🇾', PT: '🇵🇹' };
 
 
 // EFFECTIF
@@ -833,20 +833,20 @@ var FORMS = {
   ]
 };
 
-/* XI Type 2025-26 - Formation 4-3-3 */
+/* XI Type 2025-26 - Formation 4-2-3-1 */
 
 var XI_2526 = [
-  { n: 'Joan Garcia', tx: 220, ty: 545, note: 7.12 },
-  { n: 'Kounde', tx: 355, ty: 405, note: 7.08 },
-  { n: 'Cubarski', tx: 272, ty: 420, note: 7.35 },
-  { n: 'Araujo', tx: 168, ty: 420, note: 7.22 },
-  { n: 'Balde', tx: 85, ty: 405, note: 7.10 },
-  { n: 'Casado', tx: 115, ty: 265, note: 7.02 },
-  { n: 'Pedri', tx: 220, ty: 248, note: 7.42 },
-  { n: 'Fermin', tx: 325, ty: 265, note: 7.48 },
-  { n: 'Lamine Yamal', tx: 368, ty: 110, note: 8.35 },
-  { n: 'F.Torres', tx: 220, ty: 88, note: 7.35 },
-  { n: 'Raphinha', tx: 72, ty: 110, note: 7.42 },
+  { n: 'Joan Garcia',  tx: 220, ty: 545, note: 7.12 },
+  { n: 'Kounde',       tx: 355, ty: 410, note: 7.08 },
+  { n: 'Cubarski',     tx: 272, ty: 425, note: 7.35 },
+  { n: 'Gerard',       tx: 168, ty: 425, note: 7.15 },
+  { n: 'Balde',        tx: 85,  ty: 410, note: 7.10 },
+  { n: 'Frenkie',      tx: 295, ty: 322, note: 7.18 },
+  { n: 'Pedri',        tx: 145, ty: 322, note: 7.42 },
+  { n: 'Lamine Yamal', tx: 358, ty: 205, note: 8.35 },
+  { n: 'Fermin',       tx: 220, ty: 195, note: 7.48 },
+  { n: 'Raphinha',     tx: 82,  ty: 205, note: 7.42 },
+  { n: 'F.Torres',     tx: 220, ty: 88,  note: 7.35 },
 ];
 
 /* Génération données match par match */
@@ -881,7 +881,7 @@ var XI_2526 = [
 
 var curIdx = 0;
 var curProg = 0;
-var curFormKey = '4-3-3';
+var curFormKey = '4-2-3-1';
 var curCustForm = '4-3-3';
 var curStat26Idx = 0;
 var curStatCat = 'general';
@@ -1458,10 +1458,8 @@ function pitchV() {
     '<circle cx="220" cy="310" r="3" fill="' + lc + '"/>' +
     '<rect x="154" y="12" width="132" height="88" fill="none" stroke="' + lc + '" stroke-width="' + lw + '"/>' +
     '<rect x="184" y="12" width="72" height="38" fill="none" stroke="' + lc + '" stroke-width="' + lw + '"/>' +
-    '<circle cx="220" cy="68" r="26" fill="none" stroke="' + lc + '" stroke-width="' + lw + '" opacity=".4"/>' +
     '<rect x="154" y="520" width="132" height="88" fill="none" stroke="' + lc + '" stroke-width="' + lw + '"/>' +
-    '<rect x="184" y="568" width="72" height="38" fill="none" stroke="' + lc + '" stroke-width="' + lw + '"/>' +
-    '<circle cx="220" cy="550" r="26" fill="none" stroke="' + lc + '" stroke-width="' + lw + '" opacity=".4"/>';
+    '<rect x="184" y="568" width="72" height="38" fill="none" stroke="' + lc + '" stroke-width="' + lw + '"/>';
 }
 
 // crée le nœud SVG d'un joueur sur le terrain (cercle + photo + nom + note)
@@ -2118,7 +2116,7 @@ function renderRecTable(pos) {
 function renderRecRadar(pos, barcaPlayers, recrues) {
   if (chartRecRadar) { chartRecRadar.destroy(); chartRecRadar = null; }
 
-  /* ── Sélecteur de recrues cliquables ── */
+  /* Sélecteur de recrues cliquables */
   var selWrap = document.getElementById('recRadarSel');
   if (selWrap) {
     selWrap.innerHTML = '';
@@ -2273,7 +2271,7 @@ function jumpTo(pname) {
   setTimeout(function () { pickPlayer(idx); }, 40);
 }
 
-// --- fonctions mercato ---
+//      fonctions mercato
 // point d'entrée du simulateur mercato
 
 function doMercato() {
@@ -2506,7 +2504,7 @@ function resetMercato() {
   doMercato();
 }
 
-/* XI Projeté avec Mercato  */
+/* XI Projeté avec le mercato  */
 
 function initMercatoXI(fk) {
   mercatoXI = FORMS[fk].map(function(pos) {
@@ -2647,12 +2645,12 @@ function resetMercatoXI() {
 }
 
 
-// --- comparaison entre recrues ---
+//     comparaison entre recrues
 // pratique pour comparer deux cibles sur les mêmes stats
 var chartRecueCmp = null;
 var recuePosFilter = 'ALL';
 
-// point d'entrée de l'onglet 'Analyse Cibles'
+// point d'entrée de l'onglet 'Analyse des cibles'
 function doRecues() {
   var all = RECRUES_PREDEFINIES.concat(userRecrues);
 
@@ -2914,7 +2912,7 @@ function doRecueCmp() {
   sections.forEach(function(sec) {
     html += '<div class="card p">';
 
-    /* Titre section + sous-titre Barça */
+    /* Titre section et sous-titre Barça */
     html += '<div style="margin-bottom:8px;">';
     html += '<div style="font-size:11px;font-weight:800;color:var(--t1);">' + sec.title + '</div>';
     if (sec.info) html += '<div style="font-size:8px;color:var(--G);margin-top:2px;font-style:italic;">' + sec.info + '</div>';
@@ -2937,7 +2935,7 @@ function doRecueCmp() {
 
 // --- init ---
 // tout se lance ici au chargement de la page
-// tout se lance ici — j'appelle toutes les fonctions dans le bon ordre
+// tout se lance ici - j'appelle toutes les fonctions dans le bon ordre
 
 (function init() {
   
