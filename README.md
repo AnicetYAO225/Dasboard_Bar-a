@@ -1,4 +1,4 @@
-# Dashboard interactif – FC Barcelona
+# Dashboard interactif - FC Barcelona
 
 ## Présentation du projet
 
