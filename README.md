@@ -16,12 +16,12 @@ Ce projet s'inscrit dans une démarche de développement de compétences en **da
 
 Le projet a pour principaux objectifs de :
 
-* 📊 transformer des données brutes en visualisations interactives ;
-* ⚽ proposer une interface dédiée à l'analyse de données du FC Barcelona ;
-* 🔎 faciliter l'exploration et la compréhension des données sportives ;
-* 💻 expérimenter la création d'un dashboard entièrement accessible depuis un navigateur web ;
-* 🎨 travailler sur la conception d'une interface utilisateur claire et intuitive ;
-* 📈 mettre en pratique des techniques de visualisation et de présentation de données.
+*  transformer des données brutes en visualisations interactives ;
+*  proposer une interface dédiée à l'analyse de données du FC Barcelona ;
+*  faciliter l'exploration et la compréhension des données sportives ;
+*  expérimenter la création d'un dashboard entièrement accessible depuis un navigateur web ;
+*  travailler sur la conception d'une interface utilisateur claire et intuitive ;
+*  mettre en pratique des techniques de visualisation et de présentation de données.
 
 ---
 
@@ -156,16 +156,16 @@ L'utilisation d'un dashboard interactif permet ainsi de passer d'une simple cons
 
 Plusieurs évolutions pourraient être envisagées afin d'enrichir le projet :
 
-* 📅 ajouter un filtre temporel ;
-* 🔍 permettre la sélection de différentes catégories de données ;
-* 📈 intégrer davantage de visualisations ;
-* ⚽ ajouter des indicateurs de performance supplémentaires ;
-* 🔄 automatiser la mise à jour des données ;
-* 🌐 connecter le dashboard à une API de données sportives ;
-* 📱 améliorer l'affichage sur mobile et tablette ;
-* 🎨 optimiser l'ergonomie et le design de l'interface ;
-* 📊 ajouter des graphiques permettant des comparaisons historiques ;
-* 🗃️ remplacer progressivement le fichier Excel par une source de données automatisée.
+*  ajouter un filtre temporel ;
+*  permettre la sélection de différentes catégories de données ;
+*  intégrer davantage de visualisations ;
+*  ajouter des indicateurs de performance supplémentaires ;
+*  automatiser la mise à jour des données ;
+*  connecter le dashboard à une API de données sportives ;
+*  améliorer l'affichage sur mobile et tablette ;
+*  optimiser l'ergonomie et le design de l'interface ;
+*  ajouter des graphiques permettant des comparaisons historiques ;
+*  remplacer progressivement le fichier Excel par une source de données automatisée.
 
 ---
 
@@ -191,28 +191,6 @@ Ce projet permet de mettre en pratique plusieurs compétences :
 Le dashboard constitue une base de travail destinée à être enrichie progressivement par de nouvelles fonctionnalités, de nouvelles visualisations et éventuellement par l'intégration de données actualisées.
 
 ---
-
-## Auteur
-
-**Anicet YAO**
-
-Projet personnel de développement et de visualisation interactive de données.
-
-GitHub : **AnicetYAO225**
-
----
-
-## Dépôt GitHub
-
-Le code source du projet est disponible sur GitHub :
-
-**Dasboard_Bar-a**
-
-https://github.com/AnicetYAO225/Dasboard_Bar-a
-
----
-
-## Licence
 
 Sauf indication contraire, le code source de ce projet est mis à disposition à des fins d'apprentissage, d'expérimentation et de portfolio.
 
